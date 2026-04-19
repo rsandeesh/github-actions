@@ -1,85 +1,73 @@
-# 00_04 Your First Action
+# 02_03 Pass Arguments to an Action
 
-In this lesson, you'll create and run your very first GitHub Actions workflow.
+Most actions in GitHub Actions work without any additional input, but there are times when you'll need to customize how an action behaves.
 
-This example will introduce you to the GitHub Actions interface and demonstrate how a workflow is triggered by a push event. You'll start with a predefined example, make a few adjustments, and then execute a job that prints "Hello World" — the traditional start for any new project.
-
-By the end of this lesson, you’ll understand how to create a workflow file, customize the workflow contents, commit the workflow file to the repository, and verify that the workflow runs as expected.
+This lesson will show you how to pass arguments to actions using the `with` attribute.
 
 ## Overview
 
-You’ll complete the following steps to run your first GitHub Action:
+In this challenge, you will:
 
-1. Use a template to create a workflow.
-1. Rename the workflow file and the workflow name.
-1. Commit the workflow to trigger the action.
-1. View the results of the job execution.
-
-Use the following file for reference:
-
-- [hello.yml](./hello.yml)
+- Create a workflow to build Apache Tomcat with a custom user file
+- Use the `with` attribute to pass arguments to actions
+- Clone a different repository using the `actions/checkout` action
+- Set up a custom Java environment using the `setup-java` action
+- Confirm your actions and arguments worked as expected
 
 ## Instructions
 
-1. Open the Actions Tab
+### 1. Create the Workflow Directory and File
 
-    - Navigate to your newly created GitHub repository.
-    - Select the **Actions** tab at the top of the page.
+1. **Create a new GitHub repository** using the Java `.gitignore` template.
+1. **Open the repository in the GitHub Web Editor** to add code and workflows.
+1. Add the exercise file [`tomcat-users.xml`](./tomcat-users.xml) to the root of the repository.
+1. Create a new directory named `.github/workflows`.
+1. Inside the `workflows` directory, add the exercise file [`build-tomcat.yml`](./build-tomcat.yml).
 
-1. Configure a Simple Workflow
+### 2. Review Key Steps and Arguments
 
-    - On the Actions page, you’ll see sample workflows provided by GitHub.
-    - Find the **Simple Workflow** example and select the **Configure** button.
+- **Check out tomcat-users.xml** gets the local repository files including `tomcat-users.xml`.
+- **List project files and java version** prints the current files and Java version — the Ubuntu runner defaults to OpenJDK 17.
+- **Checkout the Tomcat repo** pulls the Apache Tomcat source from the official GitHub repo using a `with` block:
 
-1. Rename the Workflow File
+  - `repository`: sets the repo to clone (`apache/tomcat`)
+  - `ref`: specifies the branch (`main`)
+  - `path`: sets the directory where the code will be checked out (`tomcat`)
 
-    - At the top of the editor, GitHub names the file `blank.yml` by default.
-    - Rename the file to `hello.yml`.
+- **Setup Java** uses the `with` block to define:
 
-1. Collapse the Help Panel
+  - `java-version`: set to 21
+  - `distribution`: set to `jdk`
+  - `architecture`: set to `x64`
 
-    - To focus on the editor, collapse the help panel by selecting the icon on the right side of the screen.
+- The final steps:
 
-1. Rename the Workflow
+  - Print updated file list and Java version
+  - Copy the custom user XML file into the correct Tomcat config directory
+  - Run the Tomcat build script
 
-    - In the editor, find the line that reads `name: CI`.
-    - Change the name to `hello`.
+### 3. Push the Changes, Trigger the Workflow, and Review the Logs
 
-1. Review the Workflow Configuration.
+1. In the GitHub web editor, select the **Source Control** tab from the menu on the left-hand side.
+1. Enter a commit message. For example, `add files to build tomcat`.
+1. Select the **Commit & Push** button.
 
-    Take note of the following:
+    Note: The exact button label might vary depending on your setup, but it will typically include "Commit".
 
-    - The workflow defines a job named `build`.
-    - The job specifies a runner platform (`ubuntu-latest`).
-    - Under `steps`, the job includes two script steps that print "Hello World".
+1. At the top of the left-hand navigation panel, select **Go to Repository**.
+1. In the repository view, select the **Actions** tab.
+1. You should see a workflow run listed with a label matching your commit message.
+1. Select that workflow run to open the details.
+1. Expand the logs for:
 
-1. Commit the Workflow File
+   - The first **List project files and java version** step to confirm the default JDK and only your initial files are present.
+   - The second **List project files and java version** step to confirm the JDK has been updated to version 21 and the `tomcat` directory exists.
 
-    - Select the green **Commit changes** button.
-    - On the confirmation dialog, select **Commit changes** again.
-    - This writes the file to your repository and triggers a push event.
+1. Confirm that all complete successfully.
 
-1. View the Workflow Run
-
-    - Select the **Actions** tab again.
-    - You should now see a new entry for your `hello` workflow.
-    - Wait for the workflow to complete. You may need to refresh the page.
-    - Look for the green check mark indicating success.
-
-1. Inspect the Workflow Details
-
-    - Select the `Create hello.yml` entry next to the green check mark.
-    - On the next screen, you'll see the `build` job listed.
-    - Select the **build** job to view the steps it executed.
-
-1. Expand and Verify the Output
-
-    - Expand the steps labeled:
-        - `Run a one-line script`
-        - `Run a multi-line script`
-    - Review the output from each step.
+Once you're done, you're ready to move on to the next lesson: using environment variables with actions.
 
 <!-- FooterStart -->
 ---
-[← 00_03 Working With YAML Files](../00_03_working_with_yaml_files/README.md) | [00_05 Workflow and Action Attributes →](../00_05_workflow_action_attributes/README.md)
+[← 02_02 Use an Action From a Repository](../02_02_use_an_action_from_a_repository/README.md) | [02_04 Use Environment Variables →](../02_04_environment_variables/README.md)
 <!-- FooterEnd -->
