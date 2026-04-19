@@ -67,7 +67,3 @@ In this challenge, you will:
 
 Once you're done, you're ready to move on to the next lesson: using environment variables with actions.
 
-<!-- FooterStart -->
----
-[← 02_02 Use an Action From a Repository](../02_02_use_an_action_from_a_repository/README.md) | [02_04 Use Environment Variables →](../02_04_environment_variables/README.md)
-<!-- FooterEnd -->
